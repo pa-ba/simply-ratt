@@ -11,3 +11,11 @@ Coq formalisation of [Simply RaTT](https://arxiv.org/abs/1903.05879).
 		opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git
 		opam install coq-stdpp
 
+## Docker
+
+The project can be typechecked using Docker as follows:
+
+	docker run --rm -it -v "$PWD:$PWD" -w "$PWD" coqorg/coq:8.9 bash --login -c "
+		opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git
+		opam install coq-stdpp.dev.2019-04-25.0.0f2d2c8a
+		make"
