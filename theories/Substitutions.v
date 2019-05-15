@@ -1,9 +1,10 @@
+(** This module defines substitution of closed terms into open terms,
+and substitution of a single closed type into an open type.  *)
+
 From Coq Require Export List.
 
 From SimplyRatt Require Export RawSyntax.
 
-
-(* We only consider substitution of closed terms and types *)
 
 
 (* Substitution in types *)

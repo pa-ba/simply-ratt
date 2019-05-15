@@ -1,3 +1,6 @@
+(** This module proves the fundamental property of the logical
+relation defined in the [LogicalRelation] module. *)
+
 From SimplyRatt Require Import Tactics.
 
 From SimplyRatt Require Export LogicalRelationAux.
@@ -27,7 +30,7 @@ Proof.
     do 5 eexists. repeat split;eauto using heap_fresh_alloc. auto.
 Qed.
 
-
+(** Fundamental property (cf. Theorem 6.3 in the paper). *)
 
 Theorem fund_prop ty (G : ctx ty) t A Hs s g :
   hastype G t A -> crel G Hs s g -> closed_sub g ->

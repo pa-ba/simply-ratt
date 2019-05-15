@@ -1,3 +1,5 @@
+(* This module defines the big-step operational semantics. *)
+
 From SimplyRatt Require Export TypingClosed Worlds.
 
 From SimplyRatt Require Import Tactics.

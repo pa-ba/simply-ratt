@@ -1,3 +1,6 @@
+(** This module defines heaps based on finite maps of the coq-std++
+library. *)
+
 From stdpp Require Import gmap fin_maps fin_sets.
 From Coq Require Import Omega.
 

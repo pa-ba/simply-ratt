@@ -1,6 +1,10 @@
+(** This module proves that the stream semantics defined in module
+[Streams] is safe (cf. Theorem 3.1 in the paper). In particular, we
+prove Lemma 6.6, from which Theorem 3.1 follows. *)
+
 From SimplyRatt Require Export Streams FundamentalProperty.
 
-
+(** This is part (i) of Lemma 6.6 in the paper. *)
 Theorem productivity1 A k t : ctx_empty ⊢ t ∶ Box (Str A) -> strel A k (unbox t,heap_empty).
 Proof.
   intros T. assert (ctx_lock ctx_empty ⊢ unbox t ∶ Str A) as T' by auto.
@@ -10,6 +14,7 @@ Proof.
     try rewrite sub_empty_app in *;eauto using empty_heaps_closed, closed_heap_empty.
 Qed.
 
+(** This is part (ii) of Lemma 6.6 in the paper. *)
 Theorem productivity2 A k s : vtype A -> strel A (S k) s -> exists s' v, ctx_empty ⊢ v ∶ A  /\ sred s v s'.
   intros VT SR. destruct SR as [t h CH CT TR].
   assert (exists v s'', {t, store_lock (Some h) heap_empty}⇓ {v, s''} /\ vrel Str A (empty_heaps (S k)) s'' v) as RV.

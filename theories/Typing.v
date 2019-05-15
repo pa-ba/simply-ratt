@@ -1,3 +1,5 @@
+(** This module defines the type system of Simply RaTT. *)
+
 From SimplyRatt Require Export Substitutions.
 
 From Coq Require Import Omega Program.Equality.

@@ -1,3 +1,7 @@
+(** This module proves that the stream transducer semantics defined in
+module [Streams] is safe (cf. Theorem 3.2 in the paper). *)
+
+
 From Coq Require Import Program.Equality Omega.
 From SimplyRatt Require Export Streams FundamentalProperty.
 
@@ -5,6 +9,7 @@ From SimplyRatt Require Import Tactics.
 
 Import ListNotations.
 
+(** This is part (i) of Theorem 3.2 in the paper. *)
 Theorem causality1 A B k t :
   vtype A ->
   ctx_empty ⊢ t ∶ Box (Arrow (Str A) (Str B)) ->
@@ -27,6 +32,7 @@ Proof.
   constructor;  eauto using vtype_vrel_closed,closed_heap_alloc, closed_heap_empty.
 Qed.
 
+(** This is part (ii) of Theorem 3.2 in the paper. *)
 Theorem causality2 A B k s v :
   vtype A -> isvalue v -> ctx_empty ⊢ v ∶ A -> 
   trrel A B (S k) s -> exists v' s', tred s v v' s' /\ trrel A B k s'.

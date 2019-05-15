@@ -1,3 +1,7 @@
+(** This module defines the syntax of terms, values, and types in
+Simply RaTT *)
+
+
 From Coq Require Export Nat.
 
 
