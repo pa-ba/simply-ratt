@@ -54,9 +54,11 @@ Inductive red : term -> store -> term -> store -> Prop :=
     {progr t,store_lock (Some he) hn} ⇓ {v,store_lock (Some he') hn}
 | red_promote  t v  s :
     {t,store_bot} ⇓ {v,store_bot} ->
+    s <> store_bot ->
     {promote t,s} ⇓ {v,s}
 | red_unbox_box t t' v s s' :
     {t,store_bot} ⇓ {box t',store_bot} ->
+    s <> store_bot ->
     {t', s} ⇓ {v,s'} ->
     {unbox t,s} ⇓ {v,s'}
 | red_unbox_fix t t' v h h' s :
@@ -223,10 +225,10 @@ Proof.
   - dependent destruction R2; inv_value. 
     apply IHR1 in R2. autodest.
   - dependent destruction R2; inv_value.
-    + apply IHR1_1 in R2_1. autodest. inversion H. subst. auto.
-    + apply IHR1_1 in R2_1. autodest. inversion H. 
+    + apply IHR1_1 in R2_1. autodest. inversion H1. subst. auto.
+    + apply IHR1_1 in R2_1. autodest. inversion H0. 
   - dependent destruction R2; inv_value.
-    + apply IHR1_1 in R2_1. autodest. inversion H. 
+    + apply IHR1_1 in R2_1. autodest. inversion H0. 
     + apply IHR1_1 in R2_1. autodest. inversion H. subst. auto.
   - dependent destruction R2; inv_value.
     + eapply red_value in H1. apply IHR1 in H1. autodest.

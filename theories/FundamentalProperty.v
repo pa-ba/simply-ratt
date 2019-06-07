@@ -279,7 +279,8 @@ Proof.
     assert (s = store_bot) by eauto using crel_init. subst.
     assumption.
     destruct IH as (v & s''& R & V).
-    eexists. eexists. split. eapply red_unbox_box;try eassumption;eauto. assumption.
+    eexists. eexists. split. eapply red_unbox_box;try eassumption;eauto.
+    rewrite <- tick_le_bot'; try eassumption. eauto. assumption.
   - (* unbox *)
     unfold trel in *. intros Hs' s' HsL TL CHs' Cs'.
     apply crel_mono with (Hs':=Hs') (s':=s') in C;auto.
@@ -319,7 +320,7 @@ Proof.
         by eauto using red_extensive.
     inversion SL. subst. erewrite sub_skip_now_app in R by eauto.
     eexists. eexists. split. simpl.  apply red_promote.
-    eapply R. eapply vrel_stable in V. apply V. auto. auto.
+    eapply R. eauto using crel_now. eapply vrel_stable in V. apply V. auto. auto.
   - (* promote (later context) *)
     unfold trel in *. intros Hs' s' HsL TL CHs' Cs'.
     assert (exists hn hl : heap, s = store_lock (Some hn) hl) as ST by
@@ -344,7 +345,7 @@ Proof.
         by eauto using red_extensive.
     inversion SL. subst. simpl. erewrite sub_skip_both_app in R;eauto.
     eexists. eexists. split. simpl.  apply red_promote.
-    eapply R. eapply vrel_stable in V. apply V. auto. 
+    eapply R. eauto using crel_later. eapply vrel_stable in V. apply V. auto. 
     eauto using suffix_cons.
   - (* fixp *)
     assert (closed_term (sub_app g (fixp t))).
