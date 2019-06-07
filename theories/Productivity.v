@@ -4,6 +4,8 @@ prove Lemma 6.6, from which Theorem 3.1 follows. *)
 
 From SimplyRatt Require Export Streams FundamentalProperty.
 
+From Coq Require Import Program.Equality.
+
 (** This is part (i) of Lemma 6.6 in the paper. *)
 Theorem productivity1 A k t : ctx_empty ⊢ t ∶ Box (Str A) -> strel A k (unbox t,heap_empty).
 Proof.
@@ -15,7 +17,7 @@ Proof.
 Qed.
 
 (** This is part (ii) of Lemma 6.6 in the paper. *)
-Theorem productivity2 A k s : vtype A -> strel A (S k) s -> exists s' v, ctx_empty ⊢ v ∶ A  /\ sred s v s'.
+Theorem productivity2 A k s : vtype A -> strel A (S k) s -> exists s' v, ctx_empty ⊢ v ∶ A  /\ sred s v s' /\ strel A k s'.
   intros VT SR. destruct SR as [t h CH CT TR].
   assert (exists v s'', {t, store_lock (Some h) heap_empty}⇓ {v, s''} /\ vrel Str A (empty_heaps (S k)) s'' v) as RV.
   apply TR;eauto using empty_heaps_closed, closed_heap_empty.
@@ -31,10 +33,15 @@ Theorem productivity2 A k s : vtype A -> strel A (S k) s -> exists s' v, ctx_emp
   destruct V as (v & v''' & E & V1 & V2);subst.
   autorewrite with vrel in *. simpl in V2.
   destruct V2 as (l & u & E & M & TR');subst.
-  unfold trel in *.
-  assert (exists v s''',  {u, (store_lock (Some h2') heap_empty)} ⇓ {v, s'''} /\ vrel (Str A) (empty_heaps k) s''' v).
-  eapply TR';eauto using empty_heaps_closed, closed_heap_empty.
+
 
   eexists. eexists. 
-  split. eapply vtype_typing; eassumption. econstructor. apply R.
+  split. eapply vtype_typing; eassumption.
+
+  split.
+  econstructor. apply R.
+
+  constructor;eauto. dependent destruction M. eapply trel_adv. eauto.
+  unfold trel in *. intros.
+  eapply TR';eauto using empty_heaps_closed, closed_heap_empty.                                     
 Qed.
